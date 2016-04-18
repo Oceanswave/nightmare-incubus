@@ -242,19 +242,19 @@ describe('nightmare-incubus', function () {
 
             result.should.deep.equal([
                 {
-                    __url: "http://localhost:7500/scrape/",
+                    __url: fixture("scrape") + "/",
                     title: "HTML5 Test Page"
                 },
                 {
-                    __url: "http://localhost:7500/scrape/one.html",
+                    __url: fixture("scrape") + "/one.html",
                     title: "One"
                 },
                 {
-                    __url: "http://localhost:7500/scrape/two.html",
+                    __url: fixture("scrape") + "/two.html",
                     title: "Two"
                 },
                 {
-                    __url: "http://localhost:7500/scrape/three.html",
+                    __url: fixture("scrape") + "/three.html",
                     title: "Three"
                 }
             ]);
