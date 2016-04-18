@@ -44,6 +44,9 @@
     <Content Include="test\fixtures\jquery\index.html" />
     <Content Include="test\fixtures\nojquery\index.html" />
     <Content Include="test\fixtures\scrape\index.html" />
+    <Content Include="test\fixtures\scrape\three.html" />
+    <Content Include="test\fixtures\scrape\two.html" />
+    <Content Include="test\fixtures\scrape\one.html" />
     <Content Include="test\mocha.opts" />
   </ItemGroup>
   <ItemGroup>

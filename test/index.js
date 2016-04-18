@@ -5,14 +5,16 @@
 
 require('mocha-generators').install();
 
-var Nightmare = require("nightmare");
+const Nightmare = require("nightmare");
 require('..');
 
-var chai = require('chai');
-var url = require('url');
-var server = require('./server');
-var should = chai.should();
-var expect = chai.expect;
+const chai = require('chai');
+const url = require('url');
+const server = require('./server');
+const should = chai.should();
+const expect = chai.expect;
+
+const _ = require("lodash");
 
 /**
  * Locals.
@@ -163,6 +165,99 @@ describe('nightmare-incubus', function () {
                 tableFooter4: 'Table Footer 4',
                 anchors: '#text'
             });
+        });
+
+        it('should support specifying a start url', function* () {
+
+            yield nightmare.init();
+
+            yield nightmare.scrape({
+                __startUrl: fixture('scrape')
+            });
+
+            var title = yield nightmare.title();
+            title.should.equal("HTML5 Test Page");
+        });
+
+        it('should support specifying a before scrape function', function* () {
+
+            yield nightmare.init();
+
+            yield nightmare.scrape({
+                __startUrl: fixture('scrape'),
+                __beforeScrape: function* (nightmare) {
+                    yield nightmare.jQuery.ensureJQuery();
+                }
+            });
+
+            var ver = yield nightmare.jQuery.getJQueryVersion();
+            ver.should.equal("2.2.3");
+        });
+
+        it('should support specifying an after scrape function', function* () {
+
+            yield nightmare.init();
+
+            var result = yield nightmare.scrape({
+                __startUrl: fixture('scrape'),
+                __beforeScrape: function* (nightmare) {
+                    yield nightmare.jQuery.ensureJQuery();
+                },
+                title: function () {
+                    return jQuery('title').text();
+                },
+                __afterScrape: function* (nightmare, data) {
+                    data.title += " Foo";
+                }
+            });
+
+            result.should.deep.equal({
+                __url: fixture('scrape'),
+                title: "HTML5 Test Page Foo"
+            });
+        });
+        it('should support scraping multiple urls', function* () {
+
+            yield nightmare.init();
+
+            var result = yield nightmare.scrape({
+                __startUrl: fixture('scrape'),
+                __beforeScrape: function* (nightmare) {
+                    yield nightmare.jQuery.ensureJQuery();
+                },
+                __linkGatherer: function () {
+                    var result = [];
+                    jQuery(".links a").each(function (ix, elem) {
+                        result.push(jQuery(elem).attr("href"));
+                    });
+                    return result;
+                },
+                title: function () {
+                    return jQuery('title').text();
+                },
+                __afterScrape: function* (nightmare, data, browserUrl, urls) {
+                    //return _.pick(data, "title");
+                }
+            });
+
+            result.should.deep.equal([
+                {
+                    __url: "http://localhost:7500/scrape/",
+                    title: "HTML5 Test Page"
+                },
+                {
+                    __url: "http://localhost:7500/scrape/one.html",
+                    title: "One"
+                },
+                {
+                    __url: "http://localhost:7500/scrape/two.html",
+                    title: "Two"
+                },
+                {
+                    __url: "http://localhost:7500/scrape/three.html",
+                    title: "Three"
+                }
+            ]);
         });
     });
 });
