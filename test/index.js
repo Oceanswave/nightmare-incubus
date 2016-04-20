@@ -212,7 +212,7 @@ describe('nightmare-incubus', function () {
             });
 
             result.should.deep.equal({
-                __url: fixture('scrape'),
+                __url: fixture('scrape') + "/",
                 title: "HTML5 Test Page Foo"
             });
         });
@@ -236,7 +236,6 @@ describe('nightmare-incubus', function () {
                     return jQuery('title').text();
                 },
                 __afterScrape: function* (nightmare, data, browserUrl, urls) {
-                    //return _.pick(data, "title");
                 }
             });
 
