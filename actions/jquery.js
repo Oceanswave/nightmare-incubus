@@ -1,31 +1,37 @@
 ﻿"use strict";
 
-var debug = require("debug")("incubus:jQuery");
-var co = require("co");
-var Nightmare = require("nightmare");
-var _ = require("lodash");
+const debug = require("debug")("incubus:jQuery");
+const co = require("co");
+const Nightmare = require("nightmare");
+const _ = require("lodash");
 
-var jQueryActions = {
-    hasJQuery: function () {
+Nightmare.prototype.jQuery = class {
+    /*
+    * Returns a value that indicates if jQuery is currently loaded.
+    */
+    hasJQuery() {
         debug("hasJQuery() starting");
         return this.evaluate_now(function () {
-            return typeof(jQuery) !== "undefined";
+            return typeof (jQuery) !== "undefined";
         });
-    },
+    }
 
-    getJQueryVersion: function() {
+    /*
+    * Returns the verision of jQuery currently loded, or undefined if jQuery is not loaded.
+    */
+    getJQueryVersion() {
         return this.evaluate_now(function () {
-            if (typeof(jQuery) === "undefined")
+            if (typeof (jQuery) === "undefined")
                 return undefined;
             else
                 return jQuery.fn.jquery;
         });
-    },
+    };
 
     /*
      * Looks for the presence of jQuery, and injects it if it has not been defined. Returns the jQuery version number.
      */
-    ensureJQuery: function(opts) {
+    ensureJQuery(opts) {
         debug("ensureJQuery() getting jQuery Version");
 
         opts = _.defaults(opts, {
@@ -34,10 +40,10 @@ var jQueryActions = {
             jQueryGlobalName: "jQuery"
         });
 
-        var self = this;
-
+        let self = this;
+        
         return co(function* () {
-            var jQueryVersion = yield self.jQuery.getJQueryVersion();
+            let jQueryVersion = yield self.jQuery.getJQueryVersion();
 
             if (!jQueryVersion || opts.noConflict) {
                 debug("ensureJQuery() jQuery not found - injecting jQuery.");
@@ -61,6 +67,6 @@ var jQueryActions = {
             return jQueryVersion;
         });
     }
-}
+};
 
-Nightmare.action("jQuery", jQueryActions);
+Nightmare.registerNamespace("jQuery");

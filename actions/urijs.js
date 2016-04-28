@@ -1,16 +1,16 @@
 ﻿"use strict";
 
-var debug = require("debug")("incubus:urijs");
-var co = require("co");
-var Nightmare = require("nightmare");
+const debug = require("debug")("incubus:urijs");
+const co = require("co");
+const Nightmare = require("nightmare");
 
-var uriJsActions = {
-    injectURIJS: function () {
+Nightmare.prototype.urijs = class {
+    injectURIJS() {
         debug("injectURIAsync() started");
-        var self = this;
+        let self = this;
         return co(function* () {
             yield self.inject("js", "./node_modules/urijs/src/URI.min.js");
-            var result = yield self.evaluate_now(function () {
+            let result = yield self.evaluate_now(function () {
                 return typeof URI === "function";
             });
 
@@ -24,4 +24,4 @@ var uriJsActions = {
     }
 };
 
-Nightmare.action("urijs", uriJsActions);
+Nightmare.registerNamespace("urijs");

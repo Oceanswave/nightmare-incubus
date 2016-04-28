@@ -7,7 +7,7 @@ const _ = require("lodash");
 const async = require("async");
 const url = require("url");
 
-Nightmare.action("scrape", function (obj) {
+Nightmare.prototype.scrape = function (obj) {
     debug("scrape() started");
     //go through the properties defined on obj.
     //if function, execute the function and populate the result object with the result.
@@ -149,7 +149,7 @@ Nightmare.action("scrape", function (obj) {
             finalResolve(results[0]);
         else
             finalResolve(results);
-    }
+    };
 
     if (opt.startUrl) {
         let crawlPromise = new Promise(function (resolve, reject) {
@@ -164,4 +164,4 @@ Nightmare.action("scrape", function (obj) {
     }
     else
         return scraper();
-});
+};
