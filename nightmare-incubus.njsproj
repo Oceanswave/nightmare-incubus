@@ -31,10 +31,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="lib\coreActions.js" />
+    <Compile Include="actions\core.js" />
     <Compile Include="lib\incubus.js" />
-    <Compile Include="lib\jqueryActions.js" />
-    <Compile Include="lib\urijsActions.js" />
+    <Compile Include="actions\jquery.js" />
+    <Compile Include="actions\urijs.js" />
     <Compile Include="test\index.js" />
     <Compile Include="test\server.js" />
     <Content Include=".gitignore" />
@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+    <Folder Include="actions\" />
     <Folder Include="test\" />
     <Folder Include="test\files\" />
     <Folder Include="test\fixtures\" />
