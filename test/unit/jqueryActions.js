@@ -2,12 +2,7 @@
 
 require('mocha-generators').install();
 
-const Nightmare = require("nightmare");
 require('../../actions/jquery');
-
-const chai = require('chai');
-const should = chai.should();
-const expect = chai.expect;
 
 describe('nightmare-incubus', function () {
     describe('jquery', function () {

@@ -7,6 +7,12 @@ require('mocha-generators').install();
 const url = require('url');
 const server = require('./server');
 
+const chai = require('chai');
+global.should = chai.should();
+global.expect = chai.expect;
+
+global.Nightmare = require("nightmare");
+
 /**
  * Locals.
  */
