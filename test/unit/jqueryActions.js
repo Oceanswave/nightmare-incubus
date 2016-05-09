@@ -2,6 +2,7 @@
 
 require('mocha-generators').install();
 
+const Nightmare = require("nightmare");
 require('../../actions/jquery');
 
 describe('nightmare-incubus', function () {

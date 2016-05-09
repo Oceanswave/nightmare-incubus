@@ -2,6 +2,7 @@
 
 require('mocha-generators').install();
 
+const Nightmare = require("nightmare");
 require('../../actions/urijs');
 
 describe('nightmare-incubus', function() {
